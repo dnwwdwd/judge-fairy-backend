@@ -1,18 +1,17 @@
-package com.hjj.judgefairy.model.entity;
+package com.hjj.judgefairy.model.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
-import lombok.Data;
+import java.util.List;
 
 /**
  * 题目表
- * @TableName question
  */
-@TableName(value ="question")
 @Data
-public class Question implements Serializable {
+public class QuestionVO implements Serializable {
     /**
      * id
      */
@@ -32,12 +31,7 @@ public class Question implements Serializable {
     /**
      * 标签列表（json 数组）
      */
-    private String tags;
-
-    /**
-     * 题目答案
-     */
-    private String answer;
+    private List<String> tags;
 
     /**
      * 提交人数
@@ -48,11 +42,6 @@ public class Question implements Serializable {
      * 通过人数
      */
     private Integer accessNum;
-
-    /**
-     * 判题用例（json 数组）
-     */
-    private String judgeCase;
 
     /**
      * 判题配置（json 对象）
@@ -74,22 +63,5 @@ public class Question implements Serializable {
      */
     private Long userId;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
-     * 是否删除
-     */
-    @TableLogic
-    private Integer isDelete;
-
-    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

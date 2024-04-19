@@ -1,25 +1,19 @@
-package com.hjj.judgefairy.model.entity;
+package com.hjj.judgefairy.model.dto.questionsubmit;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 题目提交表
- * @TableName question_submit
+ * 编辑请求
+ *
+ * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
+ * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
-@TableName(value ="question_submit")
 @Data
-public class QuestionSubmit implements Serializable {
-    /**
-     * id
-     */
-    @TableId(type = IdType.AUTO)
+public class QuestionSubmitEditRequest implements Serializable {
+
     private Long id;
 
     /**
@@ -62,6 +56,5 @@ public class QuestionSubmit implements Serializable {
      */
     private Date updateTime;
 
-    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }
