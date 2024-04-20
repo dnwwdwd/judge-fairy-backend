@@ -10,10 +10,11 @@ import com.hjj.judgefairy.model.entity.PostThumb;
 import com.hjj.judgefairy.model.entity.User;
 import com.hjj.judgefairy.service.PostService;
 import com.hjj.judgefairy.service.PostThumbService;
-import javax.annotation.Resource;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * 帖子点赞服务实现

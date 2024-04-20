@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 查询请求
@@ -24,16 +23,6 @@ public class QuestionSubmitQueryRequest extends PageRequest implements Serializa
     private String language;
 
     /**
-     * 提交代码
-     */
-    private String code;
-
-    /**
-     * 判题信息（json 对象）
-     */
-    private String judgeInfo;
-
-    /**
      * 判题状态
      */
     private Integer status;
@@ -44,19 +33,9 @@ public class QuestionSubmitQueryRequest extends PageRequest implements Serializa
     private Long questionId;
 
     /**
-     * 提交的用户 id
+     * 用户 id
      */
     private Long userId;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
 
     private static final long serialVersionUID = 1L;
 }

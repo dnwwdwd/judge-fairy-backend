@@ -10,10 +10,8 @@ import com.hjj.judgefairy.common.ResultUtils;
 import com.hjj.judgefairy.constant.UserConstant;
 import com.hjj.judgefairy.exception.BusinessException;
 import com.hjj.judgefairy.exception.ThrowUtils;
-import com.hjj.judgefairy.model.dto.question.QuestionAddRequest;
-import com.hjj.judgefairy.model.dto.question.QuestionEditRequest;
-import com.hjj.judgefairy.model.dto.question.QuestionQueryRequest;
-import com.hjj.judgefairy.model.dto.question.QuestionUpdateRequest;
+import com.hjj.judgefairy.model.dto.question.*;
+import com.hjj.judgefairy.model.dto.user.UserQueryRequest;
 import com.hjj.judgefairy.model.entity.Question;
 import com.hjj.judgefairy.model.entity.User;
 import com.hjj.judgefairy.model.vo.QuestionVO;
@@ -61,6 +59,14 @@ public class QuestionController {
         List<String> tags = questionAddRequest.getTags();
         if (tags != null) {
             question.setTags(JSONUtil.toJsonStr(tags));
+        }
+        List<JudgeCase> judgeCases = questionAddRequest.getJudgeCase();
+        if (judgeCases != null) {
+            question.setJudgeConfig(JSONUtil.toJsonStr(judgeCases));
+        }
+        JudgeConfig judgeConfig = questionAddRequest.getJudgeConfig();
+        if (judgeConfig != null) {
+            question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
         }
         questionService.validQuestion(question, true);
         User loginUser = userService.getLoginUser(request);
@@ -116,6 +122,17 @@ public class QuestionController {
         if (tags != null) {
             question.setTags(JSONUtil.toJsonStr(tags));
         }
+        if (tags != null) {
+            question.setTags(JSONUtil.toJsonStr(tags));
+        }
+        List<JudgeCase> judgeCases = questionUpdateRequest.getJudgeCase();
+        if (judgeCases != null) {
+            question.setJudgeConfig(JSONUtil.toJsonStr(judgeCases));
+        }
+        JudgeConfig judgeConfig = questionUpdateRequest.getJudgeConfig();
+        if (judgeConfig != null) {
+            question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
+        }
         // 参数校验
         questionService.validQuestion(question, false);
         long id = questionUpdateRequest.getId();
@@ -125,7 +142,7 @@ public class QuestionController {
         boolean result = questionService.updateById(question);
         return ResultUtils.success(result);
     }
-
+    
     /**
      * 根据 id 获取
      *
@@ -220,6 +237,17 @@ public class QuestionController {
         List<String> tags = questionEditRequest.getTags();
         if (tags != null) {
             question.setTags(JSONUtil.toJsonStr(tags));
+        }
+        if (tags != null) {
+            question.setTags(JSONUtil.toJsonStr(tags));
+        }
+        List<JudgeCase> judgeCases = questionEditRequest.getJudgeCase();
+        if (judgeCases != null) {
+            question.setJudgeConfig(JSONUtil.toJsonStr(judgeCases));
+        }
+        JudgeConfig judgeConfig = questionEditRequest.getJudgeConfig();
+        if (judgeConfig != null) {
+            question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
         }
         // 参数校验
         questionService.validQuestion(question, false);
