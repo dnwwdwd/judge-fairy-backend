@@ -1,6 +1,7 @@
 package com.hjj.judgefairy.model.vo;
 
 import cn.hutool.json.JSONUtil;
+import com.hjj.judgefairy.model.dto.question.JudgeCase;
 import com.hjj.judgefairy.model.dto.question.JudgeConfig;
 import com.hjj.judgefairy.model.entity.Question;
 import lombok.Data;
@@ -11,10 +12,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 题目表
+ * 返回给管理员和创建改题目的人 VO 类
  */
 @Data
-public class QuestionVO implements Serializable {
+public class QuestionAdminVO implements Serializable {
     /**
      * id
      */
@@ -46,9 +47,14 @@ public class QuestionVO implements Serializable {
     private Integer accessNum;
 
     /**
-     * 判题配置（json 对象）
+     * 题目配置（json 对象）
      */
     private JudgeConfig judgeConfig;
+
+    /**
+     * 题目用例（json 数组）
+     */
+    private List<JudgeCase> judgeCase;
 
     /**
      * 点赞数
@@ -66,7 +72,6 @@ public class QuestionVO implements Serializable {
     private UserVO userVO;
 
     private String answer;
-
     /**
      * 包装类转对象
      *

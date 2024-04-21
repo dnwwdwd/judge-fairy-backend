@@ -14,14 +14,17 @@ import com.hjj.judgefairy.model.dto.question.*;
 import com.hjj.judgefairy.model.dto.user.UserQueryRequest;
 import com.hjj.judgefairy.model.entity.Question;
 import com.hjj.judgefairy.model.entity.User;
+import com.hjj.judgefairy.model.vo.QuestionAdminVO;
 import com.hjj.judgefairy.model.vo.QuestionVO;
 import com.hjj.judgefairy.service.QuestionService;
 import com.hjj.judgefairy.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.lang.model.element.NestingKind;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -62,7 +65,7 @@ public class QuestionController {
         }
         List<JudgeCase> judgeCases = questionAddRequest.getJudgeCase();
         if (judgeCases != null) {
-            question.setJudgeConfig(JSONUtil.toJsonStr(judgeCases));
+            question.setJudgeCase(JSONUtil.toJsonStr(judgeCases));
         }
         JudgeConfig judgeConfig = questionAddRequest.getJudgeConfig();
         if (judgeConfig != null) {
@@ -127,7 +130,7 @@ public class QuestionController {
         }
         List<JudgeCase> judgeCases = questionUpdateRequest.getJudgeCase();
         if (judgeCases != null) {
-            question.setJudgeConfig(JSONUtil.toJsonStr(judgeCases));
+            question.setJudgeCase(JSONUtil.toJsonStr(judgeCases));
         }
         JudgeConfig judgeConfig = questionUpdateRequest.getJudgeConfig();
         if (judgeConfig != null) {
@@ -243,7 +246,7 @@ public class QuestionController {
         }
         List<JudgeCase> judgeCases = questionEditRequest.getJudgeCase();
         if (judgeCases != null) {
-            question.setJudgeConfig(JSONUtil.toJsonStr(judgeCases));
+            question.setJudgeCase(JSONUtil.toJsonStr(judgeCases));
         }
         JudgeConfig judgeConfig = questionEditRequest.getJudgeConfig();
         if (judgeConfig != null) {
@@ -264,4 +267,28 @@ public class QuestionController {
         return ResultUtils.success(result);
     }
 
+    /**
+     * 根据 id 获取完整的题目信息
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/get")
+    public BaseResponse<Question> getQuestionById(long id, HttpServletRequest request) {
+        if (id <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Question question = questionService.getById(id);
+        if (question == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        User loginUser = userService.getLoginUser(request);
+        Long userId = loginUser.getId();
+        //不是管理员或者题目是本人创建的，不能获取到全部数据
+        if (!question.getUserId().equals(userId) && !userService.isAdmin(loginUser)) {
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+        }
+        System.out.println(question.getJudgeCase());
+        return ResultUtils.success(question);
+    }
 }
