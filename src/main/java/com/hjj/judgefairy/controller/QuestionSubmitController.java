@@ -8,12 +8,9 @@ import com.hjj.judgefairy.exception.BusinessException;
 import com.hjj.judgefairy.exception.ThrowUtils;
 import com.hjj.judgefairy.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.hjj.judgefairy.model.dto.questionsubmit.QuestionSubmitQueryRequest;
-import com.hjj.judgefairy.model.dto.user.UserQueryRequest;
 import com.hjj.judgefairy.model.entity.QuestionSubmit;
 import com.hjj.judgefairy.model.entity.User;
 import com.hjj.judgefairy.model.vo.QuestionSubmitVO;
-import com.hjj.judgefairy.model.vo.QuestionVO;
-import com.hjj.judgefairy.model.vo.UserVO;
 import com.hjj.judgefairy.service.QuestionSubmitService;
 import com.hjj.judgefairy.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * 题目提交接口

@@ -113,7 +113,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         String sortField = questionSubmitQueryRequest.getSortField();
         String sortOrder = questionSubmitQueryRequest.getSortOrder();
 
-        queryWrapper.like(QuestionSubmitLanguageEnum.getEnumByValue(language) != null, "title", language);
+        queryWrapper.like(QuestionSubmitLanguageEnum.getEnumByValue(language) != null, "language", language);
         queryWrapper.like(QuestionSubmitStatusEnum.getEnumByValue(status) != null, "status", status);
         queryWrapper.like(questionId != null && questionId > 0, "questionId", questionId);
         queryWrapper.like(userId != null && userId > 0, "userId", userId);
