@@ -7,32 +7,27 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hjj.judgefairy.common.ErrorCode;
 import com.hjj.judgefairy.constant.CommonConstant;
 import com.hjj.judgefairy.exception.BusinessException;
+import com.hjj.judgefairy.judge.JudgeService;
 import com.hjj.judgefairy.mapper.QuestionSubmitMapper;
-import com.hjj.judgefairy.model.dto.question.QuestionQueryRequest;
 import com.hjj.judgefairy.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.hjj.judgefairy.model.dto.questionsubmit.QuestionSubmitQueryRequest;
-import com.hjj.judgefairy.model.entity.Question;
 import com.hjj.judgefairy.model.entity.QuestionSubmit;
 import com.hjj.judgefairy.model.entity.User;
 import com.hjj.judgefairy.model.enums.QuestionSubmitLanguageEnum;
 import com.hjj.judgefairy.model.enums.QuestionSubmitStatusEnum;
 import com.hjj.judgefairy.model.vo.QuestionSubmitVO;
-import com.hjj.judgefairy.model.vo.QuestionVO;
-import com.hjj.judgefairy.model.vo.UserVO;
 import com.hjj.judgefairy.service.QuestionService;
 import com.hjj.judgefairy.service.QuestionSubmitService;
 import com.hjj.judgefairy.service.UserService;
 import com.hjj.judgefairy.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +45,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
 
     @Resource
     private UserService userService;
+
+    @Resource
+    @Lazy
+    private JudgeService judgeService;
 
     /**
      * 点赞
@@ -87,7 +86,12 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (!save) {
             log.error("题目 {} 提交失败", questionId);
         }
-        return questionSubmit.getId();
+        Long questionSubmitId = questionSubmit.getId();
+        // 执行判题服务
+        CompletableFuture.runAsync(() -> {
+            judgeService.doJudge(questionSubmitId);
+        });
+        return questionSubmitId;
     }
 
     /**
