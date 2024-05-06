@@ -1,7 +1,7 @@
 package com.hjj.judgefairy.model.vo;
 
 import cn.hutool.json.JSONUtil;
-import com.hjj.judgefairy.model.dto.questionsubmit.JudgeInfo;
+import com.hjj.judgefairy.judge.codesandbox.model.JudgeInfo;
 import com.hjj.judgefairy.model.entity.QuestionSubmit;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;

@@ -4,7 +4,7 @@ import com.hjj.judgefairy.judge.strategy.DefaultJudgeStrategy;
 import com.hjj.judgefairy.judge.strategy.JavaLanguageJudgeStrategy;
 import com.hjj.judgefairy.judge.strategy.JudgeContext;
 import com.hjj.judgefairy.judge.strategy.JudgeStrategy;
-import com.hjj.judgefairy.model.dto.questionsubmit.JudgeInfo;
+import com.hjj.judgefairy.judge.codesandbox.model.JudgeInfo;
 import org.springframework.stereotype.Service;
 
 /**

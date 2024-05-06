@@ -3,7 +3,7 @@ package com.hjj.judgefairy.judge.codesandbox.impl;
 import com.hjj.judgefairy.judge.codesandbox.CodeSandbox;
 import com.hjj.judgefairy.judge.codesandbox.model.ExecuteCodeRequest;
 import com.hjj.judgefairy.judge.codesandbox.model.ExecuteCodeResponse;
-import com.hjj.judgefairy.model.dto.questionsubmit.JudgeInfo;
+import com.hjj.judgefairy.judge.codesandbox.model.JudgeInfo;
 import com.hjj.judgefairy.model.enums.JudgeInfoMessageEnum;
 import com.hjj.judgefairy.model.enums.QuestionSubmitStatusEnum;
 

@@ -1,6 +1,6 @@
 package com.hjj.judgefairy.judge.strategy;
 
-import com.hjj.judgefairy.model.dto.questionsubmit.JudgeInfo;
+import com.hjj.judgefairy.judge.codesandbox.model.JudgeInfo;
 
 public interface JudgeStrategy {
 

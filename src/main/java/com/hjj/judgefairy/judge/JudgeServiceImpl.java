@@ -10,7 +10,7 @@ import com.hjj.judgefairy.judge.codesandbox.model.ExecuteCodeRequest;
 import com.hjj.judgefairy.judge.codesandbox.model.ExecuteCodeResponse;
 import com.hjj.judgefairy.judge.strategy.JudgeContext;
 import com.hjj.judgefairy.model.dto.question.JudgeCase;
-import com.hjj.judgefairy.model.dto.questionsubmit.JudgeInfo;
+import com.hjj.judgefairy.judge.codesandbox.model.JudgeInfo;
 import com.hjj.judgefairy.model.entity.Question;
 import com.hjj.judgefairy.model.entity.QuestionSubmit;
 import com.hjj.judgefairy.model.enums.QuestionSubmitStatusEnum;

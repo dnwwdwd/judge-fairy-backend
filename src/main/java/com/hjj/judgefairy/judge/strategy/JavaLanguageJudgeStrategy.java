@@ -3,7 +3,7 @@ package com.hjj.judgefairy.judge.strategy;
 import cn.hutool.json.JSONUtil;
 import com.hjj.judgefairy.model.dto.question.JudgeCase;
 import com.hjj.judgefairy.model.dto.question.JudgeConfig;
-import com.hjj.judgefairy.model.dto.questionsubmit.JudgeInfo;
+import com.hjj.judgefairy.judge.codesandbox.model.JudgeInfo;
 import com.hjj.judgefairy.model.entity.Question;
 import com.hjj.judgefairy.model.enums.JudgeInfoMessageEnum;
 

@@ -1,6 +1,5 @@
 package com.hjj.judgefairy.judge.codesandbox.model;
 
-import com.hjj.judgefairy.model.dto.questionsubmit.JudgeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
