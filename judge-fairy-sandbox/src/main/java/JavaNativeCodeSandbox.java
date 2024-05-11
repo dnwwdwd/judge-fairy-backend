@@ -1,11 +1,14 @@
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.dfa.FoundWord;
+import cn.hutool.dfa.WordTree;
 import com.hjj.judgefairysandbox.CodeSandbox;
 import com.hjj.judgefairysandbox.model.ExecuteCodeRequest;
 import com.hjj.judgefairysandbox.model.ExecuteCodeResponse;
 import com.hjj.judgefairysandbox.model.ExecuteMessage;
 import com.hjj.judgefairysandbox.model.JudgeInfo;
+import com.hjj.judgefairysandbox.security.DefaultSecurityManager;
 import com.hjj.judgefairysandbox.utils.ProcessUtils;
 import org.springframework.util.StopWatch;
 
@@ -23,6 +26,18 @@ public class JavaNativeCodeSandbox implements CodeSandbox {
 
     private static final String GLOBAL_JAVA_CLASS_NAME = "SleepError.java";
 
+    private static final long TIME_OUT = 5;
+
+    private static final List<String> blackList = Arrays.asList("Files", "execute", "exec");
+
+    private static final WordTree WORD_TREE;
+
+    static {
+        // 初始化字典树
+        WORD_TREE = new WordTree();
+        WORD_TREE.addWords(blackList);
+    }
+
     public static void main(String[] args) {
         JavaNativeCodeSandbox javaNativeCodeSandbox = new JavaNativeCodeSandbox();
         ExecuteCodeRequest executeCodeRequest = new ExecuteCodeRequest();
@@ -37,10 +52,17 @@ public class JavaNativeCodeSandbox implements CodeSandbox {
 
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
+        System.setSecurityManager(new DefaultSecurityManager());
         List<String> inputList = executeCodeRequest.getInputList();
         String code = executeCodeRequest.getCode();
         String language = executeCodeRequest.getLanguage();
 
+        // 校验代码中是否包含黑名单命令
+        FoundWord foundWord = WORD_TREE.matchWord(code);
+        if (foundWord != null) {
+            System.out.println("包含禁止词" + foundWord.getFoundWord());
+            return null;
+        }
 
         String userDir = System.getProperty("user.dir");
         String globalCodePathName = userDir + File.separator + GLOBAL_CODE_DIR_NAME;
@@ -68,6 +90,21 @@ public class JavaNativeCodeSandbox implements CodeSandbox {
         for (String inputArgs : inputList) {
             StopWatch stopWatch = new StopWatch();
             String runCmd = String.format("java -Dfile.encoding=UTF-8 -cp %s Main %s", userCodeParentPath, inputArgs);
+            try {
+                Process process = Runtime.getRuntime().exec(runCmd);
+                // 超市控制
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(TIME_OUT);
+                        System.out.println("超时了，中断");
+                        process.destroy();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             try {
                 stopWatch.start();
                 Process runProcess = Runtime.getRuntime().exec(runCmd);
