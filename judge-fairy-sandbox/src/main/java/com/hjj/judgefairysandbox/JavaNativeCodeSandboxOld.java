@@ -1,9 +1,10 @@
+package com.hjj.judgefairysandbox;
+
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.dfa.FoundWord;
 import cn.hutool.dfa.WordTree;
-import com.hjj.judgefairysandbox.CodeSandbox;
 import com.hjj.judgefairysandbox.model.ExecuteCodeRequest;
 import com.hjj.judgefairysandbox.model.ExecuteCodeResponse;
 import com.hjj.judgefairysandbox.model.ExecuteMessage;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class JavaNativeCodeSandbox implements CodeSandbox {
+public class JavaNativeCodeSandboxOld implements CodeSandbox {
 
     private static final String GLOBAL_CODE_DIR_NAME = "tmpCode";
 
@@ -39,7 +40,7 @@ public class JavaNativeCodeSandbox implements CodeSandbox {
     }
 
     public static void main(String[] args) {
-        JavaNativeCodeSandbox javaNativeCodeSandbox = new JavaNativeCodeSandbox();
+        JavaNativeCodeSandboxOld javaNativeCodeSandbox = new JavaNativeCodeSandboxOld();
         ExecuteCodeRequest executeCodeRequest = new ExecuteCodeRequest();
         executeCodeRequest.setInputList(Arrays.asList("1 2", "1 3"));
         String code = ResourceUtil.readStr("testCode/unsafeCode/MemoryError.java", StandardCharsets.UTF_8);

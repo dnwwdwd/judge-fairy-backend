@@ -12,5 +12,5 @@ public interface CodeSandbox {
      * 执行代码
      * @param executeCodeRequest
      */
-    ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest);
+    ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) throws InterruptedException;
 }
