@@ -18,22 +18,28 @@ import java.util.Scanner;
 @SpringBootTest(classes = MainApplication.class)
 public class CodeSandboxTest {
 
-    @Value("${codesandbox.type:example}")
+    @Value("${codesandbox.type:remote}")
     String type;
 
     @Test
     void executeCode() {
         CodeSandbox codeSandbox = CodeSandboxFactory.newInstance(type);
-        String code = "int main {}";
-        String language = QuestionSubmitLanguageEnum.C.getValue();
+        String code = "public class Main {\n" +
+                "    public static void main(String[] args) {\n" +
+                "        Integer a = Integer.valueOf(args[0]);\n" +
+                "        Integer b = Integer.valueOf(args[1]);\n" +
+                "        System.out.println(a + b);\n" +
+                "    }\n" +
+                "}\n";
+        String language = "java";
         List<String> inputList = Arrays.asList("1 2", "3 4");
         ExecuteCodeRequest executeCodeRequest = ExecuteCodeRequest.builder()
                 .code(code)
                 .language(language)
                 .inputList(inputList)
                 .build();
-        codeSandbox.executeCode(executeCodeRequest);
-
+        ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);
+        System.out.println(executeCodeResponse);
     }
 
     @Test
@@ -41,7 +47,13 @@ public class CodeSandboxTest {
         CodeSandbox codeSandbox = CodeSandboxFactory.newInstance(type);
         codeSandbox = new CodeSandboxProxy(codeSandbox);
 
-        String code = "int main {}";
+        String code = "public class Main {\n" +
+                "    public static void main(String[] args) {\n" +
+                "        Integer a = Integer.valueOf(args[0]);\n" +
+                "        Integer b = Integer.valueOf(args[1]);\n" +
+                "        System.out.println(a + b);\n" +
+                "    }\n" +
+                "}\n";
         String language = QuestionSubmitLanguageEnum.C.getValue();
         List<String> inputList = Arrays.asList("1 2", "3 4");
         ExecuteCodeRequest executeCodeRequest = ExecuteCodeRequest.builder()
@@ -49,7 +61,8 @@ public class CodeSandboxTest {
                 .language(language)
                 .inputList(inputList)
                 .build();
-        codeSandbox.executeCode(executeCodeRequest);
+        ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);
+        System.out.println(executeCodeResponse);
     }
 
     public static void main(String[] args) {

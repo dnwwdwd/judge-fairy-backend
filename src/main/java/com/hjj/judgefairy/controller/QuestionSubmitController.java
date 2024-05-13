@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/question_submit")
 @Slf4j
+@Deprecated
 public class QuestionSubmitController {
 
     @Resource
@@ -37,15 +38,15 @@ public class QuestionSubmitController {
     @Resource
     private UserService userService;
 
-    /**
+/*    *//**
      * 提交题目
      * @param questionSubmitAddRequest
      * @param request
      * @return
-     */
+     *//*
     @PostMapping("/add")
     public BaseResponse<Long> doQuestionSubmit(@RequestBody QuestionSubmitAddRequest questionSubmitAddRequest,
-            HttpServletRequest request) {
+                                               HttpServletRequest request) {
         if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "题目不存在");
         }
@@ -55,9 +56,9 @@ public class QuestionSubmitController {
         return ResultUtils.success(result);
     }
 
-    /**
+    *//**
      * 分页获取题目提交列表（除管理员外，普通用户只能看到非答案、提交代码等公开信息）
-     */
+     *//*
     @PostMapping("/list/page")
     public BaseResponse<Page<QuestionSubmitVO>> listQuestionSubmitVOByPage(
             @RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest,
@@ -75,5 +76,5 @@ public class QuestionSubmitController {
         Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
                 questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
         return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
-    }
+    }*/
 }

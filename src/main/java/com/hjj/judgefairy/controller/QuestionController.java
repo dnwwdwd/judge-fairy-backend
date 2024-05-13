@@ -11,12 +11,17 @@ import com.hjj.judgefairy.constant.UserConstant;
 import com.hjj.judgefairy.exception.BusinessException;
 import com.hjj.judgefairy.exception.ThrowUtils;
 import com.hjj.judgefairy.model.dto.question.*;
+import com.hjj.judgefairy.model.dto.questionsubmit.QuestionSubmitAddRequest;
+import com.hjj.judgefairy.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.hjj.judgefairy.model.dto.user.UserQueryRequest;
 import com.hjj.judgefairy.model.entity.Question;
+import com.hjj.judgefairy.model.entity.QuestionSubmit;
 import com.hjj.judgefairy.model.entity.User;
 import com.hjj.judgefairy.model.vo.QuestionAdminVO;
+import com.hjj.judgefairy.model.vo.QuestionSubmitVO;
 import com.hjj.judgefairy.model.vo.QuestionVO;
 import com.hjj.judgefairy.service.QuestionService;
+import com.hjj.judgefairy.service.QuestionSubmitService;
 import com.hjj.judgefairy.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -43,6 +48,8 @@ public class QuestionController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private QuestionSubmitService questionSubmitService;
     // region 增删改查
 
     /**
@@ -291,4 +298,46 @@ public class QuestionController {
         System.out.println(question.getJudgeCase());
         return ResultUtils.success(question);
     }
+
+    /**
+     * 提交题目
+     * @param questionSubmitAddRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/question_submit/add")
+    public BaseResponse<Long> doQuestionSubmit(@RequestBody QuestionSubmitAddRequest questionSubmitAddRequest,
+                                               HttpServletRequest request) {
+        if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "题目不存在");
+        }
+        // 登录才能提交
+        final User loginUser = userService.getLoginUser(request);
+        long result = questionSubmitService.doQuestionSubmit(questionSubmitAddRequest, loginUser);
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 分页获取题目提交列表（除管理员外，普通用户只能看到非答案、提交代码等公开信息）
+     */
+    @PostMapping("/question_submit/list/page")
+    public BaseResponse<Page<QuestionSubmitVO>> listQuestionSubmitVOByPage(
+            @RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest,
+            HttpServletRequest request) {
+        if (questionSubmitQueryRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long current = questionSubmitQueryRequest.getCurrent();
+        long size = questionSubmitQueryRequest.getPageSize();
+        // 限制爬虫
+        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+        // 获取登录用户
+        User loginUser = userService.getLoginUser(request);
+        // 从数据库中查询原始的题目提交分页信息
+        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
+                questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
+        return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
+    }
+
+
 }
